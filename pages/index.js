@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
+import HomeContainer from "../src/views/home/containers/HomeContainer";
+
 const Home = () => {
     return (
         <Container>
-            Home
+            <HomeContainer/>
         </Container>
     )
 }

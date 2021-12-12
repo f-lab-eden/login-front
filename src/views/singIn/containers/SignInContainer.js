@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import axios from 'axios';
+import {useRecoilState} from 'recoil';
 
 import SignInForm from "../components/SignInForm";
 import {jwtDecode, setAccessToken, setRefreshToken} from "../../../lib/token";
+import {auth} from "../../shared/recoil/atoms";
+import {useRouter} from "next/router";
 
 const SignInContainer = () => {
+
+    const [userInfo, setUserInfo] = useRecoilState(auth)
+    const router = useRouter()
 
     const signIn = async ({username, password}) => {
 
@@ -17,11 +23,12 @@ const SignInContainer = () => {
                     password
                 }
             })
-            console.log(result)
-            setAccessToken(result.data.accessToken)
-            setRefreshToken(result.data.refreshToken)
-
-            const user = jwtDecode(accessToken)
+            const {accessToken, refreshToken} = result.data
+            setAccessToken(accessToken)
+            setRefreshToken(refreshToken)
+            const user = jwtDecode(accessToken);
+            setUserInfo((user))
+            router.push('/')
 
         } catch (e) {
             console.log('error', e)

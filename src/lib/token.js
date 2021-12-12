@@ -8,6 +8,8 @@ const jsonParse = (data) => {
     }
 }
 
+// key 값은 uid 라이브러리를 사용해야될 것 같아욥
+
 export const getAccessToken = () => {
     return jsonParse(window.localStorage.getItem('accessToken'));
 }
@@ -31,7 +33,6 @@ export const removeRefreshToken = (token) => {
 }
 
 export const jwtDecode = (token) => {
-    function parseJwt(token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
@@ -39,5 +40,4 @@ export const jwtDecode = (token) => {
         }).join(''));
 
         return JSON.parse(jsonPayload);
-    };
 }
